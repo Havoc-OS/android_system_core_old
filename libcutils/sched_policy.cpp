@@ -320,7 +320,7 @@ int set_cpuset_policy(int tid, SchedPolicy policy)
     case SP_AUDIO_APP:
     case SP_AUDIO_SYS:
         fd = aa_cpuset_fd;
-        boost_fd = aa_schedboost_fd;
+        boost_fd = fg_schedboost_fd;
         break;
     default:
         boost_fd = fd = -1;
