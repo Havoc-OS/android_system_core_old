@@ -65,7 +65,6 @@ static int bg_schedboost_fd = -1;
 static int fg_schedboost_fd = -1;
 static int ta_schedboost_fd = -1;
 static int rt_schedboost_fd = -1;
-static int aa_schedboost_fd = -1;
 
 /* Add tid to the scheduling group defined by the policy */
 static int add_tid_to_cgroup(int tid, int fd)
@@ -161,8 +160,6 @@ static void __initialize() {
 
 
             if (schedboost_enabled()) {
-                filename = "/dev/stune/audio-app/tasks";
-                aa_schedboost_fd = open(filename, O_WRONLY | O_CLOEXEC);
                 filename = "/dev/stune/top-app/tasks";
                 ta_schedboost_fd = open(filename, O_WRONLY | O_CLOEXEC);
                 filename = "/dev/stune/foreground/tasks";
@@ -439,7 +436,7 @@ int set_sched_policy(int tid, SchedPolicy policy)
 	    break;
         case SP_AUDIO_APP:
         case SP_AUDIO_SYS:
-            boost_fd = aa_schedboost_fd;
+            boost_fd = fg_schedboost_fd;
             break;
         default:
             boost_fd = -1;
